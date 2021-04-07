@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 //schema with validators from mini project 17
-const workoutSchema = new Schema({
+const WorkoutSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
@@ -12,37 +12,38 @@ const workoutSchema = new Schema({
       {
           type: {
               type: String,
-              trim: true,
-              required: "please enter the type of excercise"
+              //removing these validators as it seems they are prepropogated in the dropdowns. 
+            //   trim: true,
+            //   required: "please enter the type of excercise"
 
           },
           name: {
               type: String,
-              trim: true, 
-              required: "please enter the name of excercise"
+            //   trim: true, 
+            //   required: "please enter the name of excercise"
 
           },
           duration: {
               type: Number,
-              required: "please enter how long this took"
+            //   required: "please enter how long this took"
           },
           weight: {
               type: Number,
-              default: 0
+            //   default: 0
           },
           reps: {
               type: Number,
-              default: 0
+            //   default: 0
           },
           distance: {
               type: Number,
-              default: 0
+            //   default: 0
           }
       }
   ],
   totalDuration: {
       type: Number,
-      default: 0
+    //   default: 0
   }
   
 });
