@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
-const { db } = require("../models/workout");
+const { Workout } = require("../models/index");
 const router = require("express").Router();
 
 //get workouts
+//changed frsom router.get("/api/workouts", (req, res) => {
 router.get("/api/workouts", (req, res) => {
-    db.Workout.find({}).then(dbWorkout => {
+    Workout.find({}).then(dbWorkout => {
         console.log(dbWorkout);
         dbWorkout.forEach(workout => {
             let total = 0;
@@ -19,7 +20,7 @@ router.get("/api/workouts", (req, res) => {
 
 //add an excercise
 router.put("/api/workouts/:id", (req, res) => {
-    db.Workout.findOneAndUpdate(
+    Workout.findOneAndUpdate(
         { _id: req.params.id },
         {
             $inc: { totalDuration: req.body.duration },
@@ -40,11 +41,31 @@ router.post("/api/workouts", ({body}, res) => {
     // console.log("added workout");
     // console.log(body);
 
-    db.Workout.create(body).then((dbWorkout => {
+    Workout.create(body).then((dbWorkout => {
         res.json(dbWorkout);
     })).catch(err => {
         res.json(err);
 });
 });
+
+//create api route for async getWorkoutsInRange() {
+    // const res = await fetch(`/api/workouts/range`);
+    // const json = await res.json();
+
+    // return json;
+//I need to change the function inthe innerds/aggrigate this to work
+    router.get("/api/workouts/range", (req,res) => {
+        Workout.find{()}.then(dbWorkout => {
+            console.log(dbWorkout);
+            dbWorkout.forEach(workout => {
+                let total = 0;
+                workout.excercise.forEAch(e => {
+                    total += e.duration;
+                });
+                workout.totalDuration = total;
+            });
+            res.json(dbWorkout);
+        }).catch(err);
+    })
 
 module.exports = router;
