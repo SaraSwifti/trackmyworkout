@@ -96,5 +96,6 @@ app.use(require("./routes/html.js"));
 
 //start server from activity 11
 app.listen(PORT, () => {
-    console.log('\x1b[36m%s\x1b[0m', `App running on http://localhost:${PORT}`);
+    // console.log('\x1b[36m%s\x1b[0m', `App running on http://localhost:${PORT}`);
+    console.log(`app running on port ${PORT}`);
 });
