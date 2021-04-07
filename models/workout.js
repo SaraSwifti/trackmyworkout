@@ -27,16 +27,23 @@ const workoutSchema = new Schema({
               required: "please enter how long this took"
           },
           weight: {
-              type: Number
+              type: Number,
+              default: 0
           },
           reps: {
-              type: Number
+              type: Number,
+              default: 0
           },
           distance: {
-              type: Number
+              type: Number,
+              default: 0
           }
       }
-  ]
+  ],
+  totalDuration: {
+      type: Number,
+      default: 0
+  }
   
 });
 
