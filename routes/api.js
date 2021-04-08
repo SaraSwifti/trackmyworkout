@@ -15,7 +15,9 @@ router.get("/api/workouts", (req, res) => {
             workout.totalDuration = total;
         });
         res.json(dbWorkout);
-    }).catch(err);
+    }).catch(err => {
+        res.json(err);
+    });
 });
 
 //add an excercise
@@ -43,26 +45,14 @@ router.post("/api/workouts", ({ body }, res) => {
 
     Workout.create(body).then((dbWorkout => {
         res.json(dbWorkout);
-    })).catch(err => {
-        res.json(err);
-    });
+    // })).catch(err => {
+    //     res.json(err);
+    // });
+}));
 });
+//create api route for async getWorkoutsInRange reference https://docs.mongodb.com/manual/reference/operator/aggregation/range/. 
 
-//create api route for async getWorkoutsInRange something is wrong with this and I need to fix it. 
-
-// router.get("/api/workouts/range", (req, res) => {
-//     Workout.find({}).then(dbWorkout => {
-//         console.log("all workouts");
-//         console.log(dbWorkout);
-
-//         res.json(dbWorkout);
-
-//     }).catch(err => {
-//         res.json(err);
-//     });
-// });
-
-app.get("/api/workouts/range", (req, res) => {
+router.get("/api/workouts/range", (req, res) => {
     Workout.aggregate([
         {
             $addFields: {
