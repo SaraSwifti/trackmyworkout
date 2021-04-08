@@ -3,10 +3,10 @@ const { Workout } = require("../models/index");
 const router = require("express").Router();
 
 //get workouts
-//changed frsom router.get("/api/workouts", (req, res) => {
+
 router.get("/api/workouts", (req, res) => {
     Workout.find({}).then(dbWorkout => {
-        console.log(dbWorkout);
+        // console.log(dbWorkout);
         dbWorkout.forEach(workout => {
             let total = 0;
             workout.excercise.forEAch(e => {
@@ -24,19 +24,19 @@ router.put("/api/workouts/:id", (req, res) => {
         { _id: req.params.id },
         {
             $inc: { totalDuration: req.body.duration },
-        $push: { excercises: req.body }
+            $push: { excercises: req.body }
         },
-    { new: true }).then(dbWorkout => {
-        res.json(dbWorkout);
-    }).catch(err => {
-        res.json(err);
-    });
-    
+        { new: true }).then(dbWorkout => {
+            res.json(dbWorkout);
+        }).catch(err => {
+            res.json(err);
+        });
+
 });
 
 //create workout
 
-router.post("/api/workouts", ({body}, res) => {
+router.post("/api/workouts", ({ body }, res) => {
 
     // console.log("added workout");
     // console.log(body);
@@ -45,27 +45,42 @@ router.post("/api/workouts", ({body}, res) => {
         res.json(dbWorkout);
     })).catch(err => {
         res.json(err);
-});
+    });
 });
 
-//create api route for async getWorkoutsInRange() {
-    // const res = await fetch(`/api/workouts/range`);
-    // const json = await res.json();
+//create api route for async getWorkoutsInRange something is wrong with this and I need to fix it. 
 
-    // return json;
-//I need to change the function inthe innerds/aggrigate this to work
-    router.get("/api/workouts/range", (req,res) => {
-        Workout.find{()}.then(dbWorkout => {
-            console.log(dbWorkout);
-            dbWorkout.forEach(workout => {
-                let total = 0;
-                workout.excercise.forEAch(e => {
-                    total += e.duration;
-                });
-                workout.totalDuration = total;
-            });
-            res.json(dbWorkout);
-        }).catch(err);
-    })
+// router.get("/api/workouts/range", (req, res) => {
+//     Workout.find({}).then(dbWorkout => {
+//         console.log("all workouts");
+//         console.log(dbWorkout);
+
+//         res.json(dbWorkout);
+
+//     }).catch(err => {
+//         res.json(err);
+//     });
+// });
+
+app.get("/api/workouts/range", (req, res) => {
+    Workout.aggregate([
+        {
+            $addFields: {
+                totalDuration: {
+                    $sum: "$exercises.duration",
+                },
+            },
+        },
+    ])
+        .sort({ _id: -1 })
+        .limit(7)
+        .then(function (allWorkouts) {
+            res.json(allWorkouts);
+        })
+         .catch(err => {
+            res.json(err);
+        });
+});
+
 
 module.exports = router;
