@@ -6,21 +6,21 @@ const Schema = mongoose.Schema;
 const WorkoutSchema = new Schema({
   date: {
     type: Date,
-    default: Date.now
+    default: () => new Date()
   },
-  excercise: [
+  excercises: [
       {
           type: {
               type: String,
               //removing these validators as it seems they are prepropogated in the dropdowns. 
-            //   trim: true,
-            //   required: "please enter the type of excercise"
+              // trim: true,
+              // required: "please enter the type of excercise"
 
           },
           name: {
               type: String,
-            //   trim: true, 
-            //   required: "please enter the name of excercise"
+              trim: true, 
+              required: "please enter the name of excercise"
 
           },
           duration: {
@@ -38,13 +38,17 @@ const WorkoutSchema = new Schema({
           distance: {
               type: Number,
             //   default: 0
-          }
+          },
+          sets: {
+            type: Number,
+            // trim: true
+        },
       }
-  ],
-  totalDuration: {
-      type: Number,
-    //   default: 0
-  }
+  ]
+  // totalDuration: {
+  //     type: Number,
+  //   //   default: 0
+  // }
   
 });
 
