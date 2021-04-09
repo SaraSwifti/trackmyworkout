@@ -1,7 +1,7 @@
 const router = require("express").Router();
 // const mongoose = require("mongoose");
 const Workout = require("../models/workout.js");
-const { param } = require("./html.js")
+const { params } = require("./html.js")
 
 
 // create workout/
@@ -31,8 +31,8 @@ router.put('/api/workouts/:id', ({ body, params }, res) => {
     Workout.findByIdAndUpdate(
         params.id,
         { $push: { exercises: body } },
-        // run Validators  
-        { new: true, runValidators: true }
+        
+        
     )
         .then((dbWorkout) => {
             res.json(dbWorkout);

@@ -1,6 +1,6 @@
 //dependencies
 const express = require("express");
-// const logger = require("morgan");
+const logger = require("morgan");
 const mongoose = require("mongoose");
 //port
 const PORT = process.env.PORT || 3000;
@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 
 //middleware morgan dependency
 
-// app.use(logger("dev"));
+app.use(logger("dev"));
 
 
 app.use(express.urlencoded({ extended: true }));

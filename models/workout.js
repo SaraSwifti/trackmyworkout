@@ -13,14 +13,14 @@ const WorkoutSchema = new Schema({
           type: {
               type: String,
               //removing these validators as it seems they are prepropogated in the dropdowns. 
-              // trim: true,
+              trim: true,
               // required: "please enter the type of excercise"
 
           },
           name: {
               type: String,
               trim: true, 
-              required: "please enter the name of excercise"
+              // required: "please enter the name of excercise"
 
           },
           duration: {
